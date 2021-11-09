@@ -1,0 +1,50 @@
+import Array from "array"
+import Char from "char"
+import Map from "map"
+import Process from "sys/process"
+import String from "string"
+
+let mut listOfEggs = Map.make()
+let mut totalOils = 0
+let mut totalMinutes = 0
+let mut indexOfProcessEgg = 0;
+let mut indexOfArray = 0;
+let oil = 2
+let minute = 5
+let serveMinute = 2
+
+let populateArgs = (arg) => {
+   if (indexOfArray>=3){
+      let person = Char.code(String.explode(String.slice(0,1,arg))[0])-48
+      let egg = Char.code(String.explode(String.slice(2,3,arg))[0])-48
+      Map.set(person, egg, listOfEggs)
+   }
+   indexOfArray += 1
+}
+
+let processEgg = (p, e) => {
+  let eggs = e
+  let oils = eggs * oil * p
+  let minutes = eggs * minute * p
+  let serveMinutes = serveMinute * p
+  let totalMinutesPerPerson = minutes + serveMinutes
+
+  totalOils += oils
+  totalMinutes += totalMinutesPerPerson
+  indexOfProcessEgg += 1
+
+  print (String.concat("Person Set ",toString(indexOfProcessEgg)))
+  print ("<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>")
+  print (String.concat("Total Oil Usages (Mililiteters): ",toString(oils)))
+  print (String.concat("Total Minutes: ",toString(totalMinutesPerPerson)))
+  print ("")
+}
+
+let args = Process.argv()
+Array.forEach(populateArgs, args)
+Map.forEach(processEgg, listOfEggs)
+
+print ("Total Report")
+print ("<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>")
+print (String.concat("Total Oil Usages (Mililiteters): ",toString(totalOils)))
+print (String.concat("Total Minutes: ",toString(totalMinutes)))
